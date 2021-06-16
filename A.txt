@@ -1,0 +1,7 @@
+splunk btool --app=Training_NikhilPasoli_for_Splunk props list --debug
+index="training_nikhil" |lookup price_csv_lookups productId OUTPUTNEW product_name price sale_price Code
+|tstats count from datamodel=Web_Events where nodename=Access.Sale by Access.productId | sort 5 -count
+|tstats count from datamodel=Web_Events where nodename=Access.Web_Error by _time span=1h
+index=* source="C:\\Users\\nikhil.pasoli\\Desktop\\splunk\\www1\\access.log" | table ip_address method time_taken | outputlookup kvlookup
+| inputlookup kvlookup| table ip_address time_taken| outputlookup kv_csv_lookup
+
